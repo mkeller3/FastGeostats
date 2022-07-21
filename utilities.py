@@ -1,4 +1,43 @@
 """FastGeostats App - Utilities"""
-from fastapi import FastAPI
+from pygeofilter.backends.sql import to_sql_where
+from pygeofilter.parsers.ecql import parse
 
-import config
+async def generate_where_clause(info: object, con) -> str:
+    """
+    Method to generate where clause
+
+    """
+    
+    query = ""
+
+    if info.filter:
+        sql_field_query = f"""
+            SELECT column_name
+            FROM information_schema.columns
+            WHERE table_name = '{info.table}'
+            AND column_name != 'geom';
+        """
+
+        db_fields = await con.fetch(sql_field_query)
+
+        field_mapping = {}  
+
+        for field in db_fields:
+            field_mapping[field['column_name']] = field['column_name']
+
+        ast = parse(info.filter)
+        filter = to_sql_where(ast, field_mapping)
+
+        query += f" WHERE {filter}"
+    
+    if info.coordinates and info.geometry_type and info.spatial_relationship:
+        if info.filter:
+            query += " AND "
+        else:
+            query += " WHERE "
+        if info.geometry_type == 'POLYGON':
+            query += f"{info.spatial_relationship}(ST_GeomFromText('{info.geometry_type}(({info.coordinates}))',4326) ,{info.table}.geom)"
+        else:
+            query += f"{info.spatial_relationship}(ST_GeomFromText('{info.geometry_type}({info.coordinates})',4326) ,{info.table}.geom)"
+
+    return query

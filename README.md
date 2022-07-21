@@ -54,15 +54,98 @@ Build Dockerfile into a docker image to deploy to the cloud.
 ## Statistics
 
 ### Description
+The statistics endpoints allows you to performa multitude of common math statistics on your table such as `'distinct', 'avg', 'count', 'sum', 'max', 'min'`.
 
-Example: 
+Example: In the example below we will be searching for the number of parcels, average deed ac, and distinct first names filtered by last name of `DOOLEY`.
 
 ### Example Input
 ```json
+{
+    "database": "data",
+    "table": "mclean_county_parcels",
+    "aggregate_columns": [
+        {
+            "type": "count",
+            "column": "gid"
+        },
+        {
+            "type": "avg",
+            "column": "deed_ac"
+        },
+        {
+            "type": "distinct",
+            "column": "first_name",
+            "group_column": "first_name",
+            "group_method": "count"
+        }
+    ],
+    "filter": "last_name LIKE '%DOOLEY%'"
+}
 ```
 
 ### Example Output
 ```json
+{
+    "results": {
+        "count_gid": 19,
+        "avg_deed_ac": 64.28666666666666,
+        "distinct_first_name_count_first_name": [
+            {
+                "first_name": "",
+                "count": 3
+            },
+            {
+                "first_name": "COLE",
+                "count": 3
+            },
+            {
+                "first_name": "% BAS",
+                "count": 2
+            },
+            {
+                "first_name": "%FIRST MID AG SERVICES ",
+                "count": 2
+            },
+            {
+                "first_name": "COLE & WENDY",
+                "count": 1
+            },
+            {
+                "first_name": "EDITH",
+                "count": 1
+            },
+            {
+                "first_name": "JAMES R & TERESA",
+                "count": 1
+            },
+            {
+                "first_name": "KENNETH",
+                "count": 1
+            },
+            {
+                "first_name": "KEVIN",
+                "count": 1
+            },
+            {
+                "first_name": "LUCAS",
+                "count": 1
+            },
+            {
+                "first_name": "MCCALLA O & DEANA J",
+                "count": 1
+            },
+            {
+                "first_name": "THOMAS",
+                "count": 1
+            },
+            {
+                "first_name": "WENDY",
+                "count": 1
+            }
+        ]
+    },
+    "status": "SUCCESS"
+}
 ```
 
 ## Bins
