@@ -58,7 +58,7 @@ The statistics endpoints allows you to performa multitude of common math statist
 
 Example: In the example below we will be searching for the number of parcels, average deed ac, and distinct first names filtered by last name of `DOOLEY`.
 
-### Example Input
+### Example Input 
 ```json
 {
     "database": "data",
@@ -152,14 +152,77 @@ Example: In the example below we will be searching for the number of parcels, av
 
 ### Description
 
-Example: 
+The bins endpoints allows you to help visualize the spread of a data for a numerical column.
+
+Example: Calculate 10 bins for the `deed_ac` column on the `mclean_county_parcels` table.
 
 ### Example Input
 ```json
+{
+    "database": "data",
+    "table": "mclean_county_parcels",
+    "column": "deed_ac",
+    "bins": 10
+}
 ```
 
 ### Example Output
 ```json
+{
+    "results": [
+        {
+            "min": 0.0,
+            "max": 145.158,
+            "count": 15993
+        },
+        {
+            "min": 145.158,
+            "max": 290.316,
+            "count": 1088
+        },
+        {
+            "min": 290.316,
+            "max": 435.47399999999993,
+            "count": 116
+        },
+        {
+            "min": 435.47399999999993,
+            "max": 580.632,
+            "count": 19
+        },
+        {
+            "min": 580.632,
+            "max": 725.79,
+            "count": 11
+        },
+        {
+            "min": 725.79,
+            "max": 870.9479999999999,
+            "count": 1
+        },
+        {
+            "min": 870.9479999999999,
+            "max": 1016.1059999999999,
+            "count": 0
+        },
+        {
+            "min": 1016.1059999999999,
+            "max": 1161.264,
+            "count": 0
+        },
+        {
+            "min": 1161.264,
+            "max": 1306.4219999999998,
+            "count": 0
+        },
+        {
+            "min": 1306.4219999999998,
+            "max": 1451.58,
+            "count": 1
+        }
+    ],
+    "status": "SUCCESS"
+}
 ```
 
 ## Numeric Breaks

@@ -2,7 +2,7 @@
 from pygeofilter.backends.sql import to_sql_where
 from pygeofilter.parsers.ecql import parse
 
-async def generate_where_clause(info: object, con) -> str:
+async def generate_where_clause(info: object, con, no_where: bool=False) -> str:
     """
     Method to generate where clause
 
@@ -28,13 +28,18 @@ async def generate_where_clause(info: object, con) -> str:
         ast = parse(info.filter)
         filter = to_sql_where(ast, field_mapping)
 
-        query += f" WHERE {filter}"
+        if no_where is False:
+            query += f" WHERE "
+        else:
+            query += f" AND "
+        query += f" {filter}"
     
     if info.coordinates and info.geometry_type and info.spatial_relationship:
         if info.filter:
             query += " AND "
         else:
-            query += " WHERE "
+            if no_where is False:
+                query += " WHERE "
         if info.geometry_type == 'POLYGON':
             query += f"{info.spatial_relationship}(ST_GeomFromText('{info.geometry_type}(({info.coordinates}))',4326) ,{info.table}.geom)"
         else:

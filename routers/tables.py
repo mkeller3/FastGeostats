@@ -60,3 +60,52 @@ async def statistics(info: models.StatisticsModel, request: Request):
             "results": final_results,
             "status": "SUCCESS"
         }
+
+@router.post("/bins/", tags=["Tables"])
+async def bins(info: models.BinsModel, request: Request):
+
+    pool = request.app.state.databases[f'{info.database}_pool']
+
+    async with pool.acquire() as con:
+        results = [
+
+        ]
+        query = f"""
+            SELECT MIN("{info.column}"),MAX("{info.column}")
+            FROM "{info.table}"
+        """
+
+        query += await utilities.generate_where_clause(info, con)
+
+        data = await con.fetchrow(query)
+
+        group_size = (data['max'] - data['min']) / info.number_of_bins
+
+        for group in range(info.number_of_bins):
+            if group == 0:
+                min = data['min']
+                max = group_size
+            else:
+                min = group*group_size
+                max = (group+1)*group_size
+            query = f"""
+                SELECT COUNT(*)
+                FROM "{info.table}"
+                WHERE "{info.column}" > {min}
+                AND "{info.column}" <= {max}
+            """
+
+            query += await utilities.generate_where_clause(info, con, True)
+
+            data = await con.fetchrow(query)
+
+            results.append({
+                "min": min,
+                "max": max,
+                "count": data['count']
+            })
+
+        return {
+            "results": results,
+            "status": "SUCCESS"
+        }
