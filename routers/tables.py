@@ -109,3 +109,63 @@ async def bins(info: models.BinsModel, request: Request):
             "results": results,
             "status": "SUCCESS"
         }
+
+@router.post("/numeric_breaks/", tags=["Tables"])
+async def numeric_breaks(info: models.NumericBreaksModel, request: Request):
+
+    pool = request.app.state.databases[f'{info.database}_pool']
+
+    async with pool.acquire() as con:
+        results = [
+
+        ]
+        
+        if info.break_type == "quantile":
+            query = f"""
+                SELECT {info.break_type}_bins(array_agg(CAST("{info.column}" AS integer)), {info.number_of_breaks}) 
+                FROM "{info.table}"
+            """
+        else:
+            query = f"""
+                SELECT {info.break_type}_bins(array_agg("{info.column}"), {info.number_of_breaks}) 
+                FROM "{info.table}"
+            """
+
+        query += await utilities.generate_where_clause(info, con)
+
+        break_points = await con.fetchrow(query)
+
+        min_query = f"""
+            SELECT MIN("{info.column}")
+            FROM "{info.table}"
+        """
+
+        min_query += await utilities.generate_where_clause(info, con)
+
+        min_number = await con.fetchrow(min_query)
+
+        for index, max_number in enumerate(break_points[f"{info.break_type}_bins"]):
+            if index == 0:
+                min = min_number['min']
+                max = max_number
+            else:
+                min = break_points[f"{info.break_type}_bins"][index-1]
+                max = max_number
+            query = f"""
+                SELECT COUNT(*)
+                FROM "{info.table}"
+                WHERE "{info.column}" > {min}
+                AND "{info.column}" <= {max}
+            """
+
+            query += await utilities.generate_where_clause(info, con, True)
+
+            data = await con.fetchrow(query)
+
+            results.append({
+                "min": min,
+                "max": max,
+                "count": data['count']
+            })
+
+        return results

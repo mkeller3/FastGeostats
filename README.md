@@ -45,7 +45,6 @@ Build Dockerfile into a docker image to deploy to the cloud.
 | `POST`  | `/api/v1/tables/statistics`                                                     | [Statistics](#statistics)               |
 | `POST`  | `/api/v1/tables/bins`                                                           | [Bins](#bins)               |
 | `POST`  | `/api/v1/tables/numeric_breaks`                                                 | [Numeric Breaks](#numeric-breaks)               |
-| `POST`  | `/api/v1/tables/categorical_breaks`                                             | [Categorical Breaks](#categorical-breaks)               |
 | `POST`  | `/api/v1/tables/custom_break_values`                                            | [Custom Break Values](#custom-break-alues)               |
 | `GET`  | `/api/v1/health_check`                                                           | Server health check: returns `200 OK`   |
 
@@ -228,29 +227,42 @@ Example: Calculate 10 bins for the `deed_ac` column on the `mclean_county_parcel
 ## Numeric Breaks
 
 ### Description
+Create bins of data based off of different mathmatical break types.
 
-Example: 
+Break Types: `equal_interval, head_tail, quantile, jenk`
+
+Example: Create 3 breaks based off of the column `population` for the table `zip_centroids`.
 
 ### Example Input
 ```json
+{
+    "database": "data",
+    "table": "zip_centroids",
+    "column": "population",
+    "number_of_breaks": 3,
+    "break_type": "quantile"
+}
 ```
 
 ### Example Output
 ```json
-```
-
-## Categorical Breaks
-
-### Description
-
-Example: 
-
-### Example Input
-```json
-```
-
-### Example Output
-```json
+[
+    {
+        "min": 0,
+        "max": 1470,
+        "count": 10301
+    },
+    {
+        "min": 1470,
+        "max": 8932,
+        "count": 10373
+    },
+    {
+        "min": 8932,
+        "max": 133324,
+        "count": 10377
+    }
+]
 ```
 
 ## Custom Break Values
