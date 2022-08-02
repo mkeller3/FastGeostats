@@ -1,0 +1,289 @@
+{
+	"info": {
+		"_postman_id": "583498c0-91ae-4c72-bc40-ea0d0d81dc23",
+		"name": "FastGeostats",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Statistics - Coords 1",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"database\": \"data\",\n    \"table\": \"mclean_county_parcels\",\n    \"aggregate_columns\": [\n        {\n            \"type\": \"count\",\n            \"column\": \"gid\"\n        },\n        {\n            \"type\": \"avg\",\n            \"column\": \"parcel_year\"\n        },\n        {\n            \"type\": \"avg\",\n            \"column\": \"deed_ac\"\n        }\n    ],\n    \"filter\": \"last_name ILIKE 'KELLER' OR last_name ILIKE 'BULLOCK'\",\n    \"geometry_type\": \"POLYGON\",\n    \"spatial_relationship\": \"ST_Intersects\",\n    \"coordinates\": \"-88.9733362197876 40.525380516124514, -88.96775722503662 40.52498906616943,-88.9713191986084 40.530925811543604,-88.9733362197876 40.525380516124514\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/v1/tables/statistics/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"tables",
+						"statistics",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Statistics - Coords 2",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"database\": \"data\",\n    \"table\": \"mclean_county_parcels\",\n    \"aggregate_columns\": [\n        {\n            \"type\": \"count\",\n            \"column\": \"gid\"\n        },\n        {\n            \"type\": \"avg\",\n            \"column\": \"deed_ac\"\n        },\n        {\n            \"type\": \"distinct\",\n            \"column\": \"first_name\",\n            \"group_column\": \"first_name\",\n            \"group_method\": \"count\"\n        }\n    ],\n    \"filter\": \"last_name LIKE '%DOOLEY%'\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/v1/tables/statistics/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"tables",
+						"statistics",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Bins",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"database\": \"data\",\n    \"table\": \"mclean_county_parcels\",\n    \"column\": \"deed_ac\",\n    \"bins\": 10\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/v1/tables/bins/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"tables",
+						"bins",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Numeric Breaks - Quantile",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"database\": \"data\",\n    \"table\": \"zip_centroids\",\n    \"column\": \"population\",\n    \"number_of_breaks\": 3,\n    \"break_type\": \"quantile\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/v1/tables/numeric_breaks/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"tables",
+						"numeric_breaks",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Custom Break Values",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"database\": \"data\",\n    \"table\": \"zip_centroids\",\n    \"column\": \"population\",\n    \"breaks\": [\n        {\n            \"min\": 0,\n            \"max\": 1000\n        },\n        {\n            \"min\": 1000,\n            \"max\": 9000\n        },\n        {\n            \"min\": 9000,\n            \"max\": 140000\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/v1/tables/custom_break_values/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"tables",
+						"custom_break_values",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Numeric Breaks - Jenk",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"database\": \"data\",\n    \"table\": \"zip_centroids\",\n    \"column\": \"population\",\n    \"number_of_breaks\": 3,\n    \"break_type\": \"jenk\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/v1/tables/numeric_breaks/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"tables",
+						"numeric_breaks",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Numeric Breaks - Head Tail",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"database\": \"data\",\n    \"table\": \"zip_centroids\",\n    \"column\": \"population\",\n    \"number_of_breaks\": 3,\n    \"break_type\": \"head_tail\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/v1/tables/numeric_breaks/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"tables",
+						"numeric_breaks",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Numeric Breaks - Equal Interval",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"database\": \"data\",\n    \"table\": \"zip_centroids\",\n    \"column\": \"population\",\n    \"number_of_breaks\": 3,\n    \"break_type\": \"equal_interval\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/v1/tables/numeric_breaks/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"tables",
+						"numeric_breaks",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
