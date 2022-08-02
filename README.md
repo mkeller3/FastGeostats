@@ -231,7 +231,7 @@ Create bins of data based off of different mathmatical break types.
 
 Break Types: `equal_interval, head_tail, quantile, jenk`
 
-Example: Create 3 breaks based off of the column `population` for the table `zip_centroids`.
+Example: Create 3 breaks based off of the column `population` for the table `zip_centroids` using a quantile break type.
 
 ### Example Input
 ```json
