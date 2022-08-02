@@ -45,7 +45,7 @@ Build Dockerfile into a docker image to deploy to the cloud.
 | `POST`  | `/api/v1/tables/statistics`                                                     | [Statistics](#statistics)               |
 | `POST`  | `/api/v1/tables/bins`                                                           | [Bins](#bins)               |
 | `POST`  | `/api/v1/tables/numeric_breaks`                                                 | [Numeric Breaks](#numeric-breaks)               |
-| `POST`  | `/api/v1/tables/custom_break_values`                                            | [Custom Break Values](#custom-break-alues)               |
+| `POST`  | `/api/v1/tables/custom_break_values`                                            | [Custom Break Values](#custom-break-values)               |
 | `GET`  | `/api/v1/health_check`                                                           | Server health check: returns `200 OK`   |
 
 ## Endpoint Description's
