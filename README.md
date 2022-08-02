@@ -53,7 +53,7 @@ Build Dockerfile into a docker image to deploy to the cloud.
 ## Statistics
 
 ### Description
-The statistics endpoints allows you to performa multitude of common math statistics on your table such as `'distinct', 'avg', 'count', 'sum', 'max', 'min'`.
+The statistics endpoints allows you to perform a multitude of common math statistics on your table such as `'distinct', 'avg', 'count', 'sum', 'max', 'min'`.
 
 ### Parameters
 * `coordinates=coords` - a list of coordinates used to filter the response
