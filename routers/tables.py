@@ -168,4 +168,43 @@ async def numeric_breaks(info: models.NumericBreaksModel, request: Request):
                 "count": data['count']
             })
 
-        return results
+        return {
+            "results": results,
+            "status": "SUCCESS"
+        }
+
+@router.post("/custom_break_values/", tags=["Tables"])
+async def custom_break_values(info: models.CustomBreaksModel, request: Request):
+
+    pool = request.app.state.databases[f'{info.database}_pool']
+
+    async with pool.acquire() as con:
+        results = [
+
+        ]        
+
+        for break_range in info.breaks:
+            min = break_range.min
+            max = break_range.max
+
+            query = f"""
+                SELECT COUNT(*)
+                FROM "{info.table}"
+                WHERE "{info.column}" > {min}
+                AND "{info.column}" <= {max}
+            """
+
+            query += await utilities.generate_where_clause(info, con, True)
+
+            data = await con.fetchrow(query)
+
+            results.append({
+                "min": min,
+                "max": max,
+                "count": data['count']
+            })
+
+        return {
+            "results": results,
+            "status": "SUCCESS"
+        }

@@ -246,35 +246,79 @@ Example: Create 3 breaks based off of the column `population` for the table `zip
 
 ### Example Output
 ```json
-[
-    {
-        "min": 0,
-        "max": 1470,
-        "count": 10301
-    },
-    {
-        "min": 1470,
-        "max": 8932,
-        "count": 10373
-    },
-    {
-        "min": 8932,
-        "max": 133324,
-        "count": 10377
-    }
-]
+{
+    "results": [
+        {
+            "min": 0,
+            "max": 1470,
+            "count": 10301
+        },
+        {
+            "min": 1470,
+            "max": 8932,
+            "count": 10373
+        },
+        {
+            "min": 8932,
+            "max": 133324,
+            "count": 10377
+        }
+    ],
+    "status": "SUCCESS"
+}
 ```
 
 ## Custom Break Values
 
 ### Description
+Create bins based off of your own min and max ranges and provide a count back for each bin.
 
-Example: 
+Example: Create 3 custom bins `0 - 1,000`, `1,000 - 9,000`, and `9,000 - 140,000` based 
+off of the column `population` for the table `zip_centroids` using a quantile break type.
 
 ### Example Input
 ```json
+{
+    "database": "data",
+    "table": "zip_centroids",
+    "column": "population",
+    "breaks": [
+        {
+            "min": 0,
+            "max": 1000
+        },
+        {
+            "min": 1000,
+            "max": 9000
+        },
+        {
+            "min": 9000,
+            "max": 140000
+        }
+    ]
+}
 ```
 
 ### Example Output
 ```json
+{
+    "results": [
+        {
+            "min": 0.0,
+            "max": 1000.0,
+            "count": 7981
+        },
+        {
+            "min": 1000.0,
+            "max": 9000.0,
+            "count": 12720
+        },
+        {
+            "min": 9000.0,
+            "max": 140000.0,
+            "count": 10350
+        }
+    ],
+    "status": "SUCCESS"
+}
 ```
