@@ -55,6 +55,12 @@ Build Dockerfile into a docker image to deploy to the cloud.
 ### Description
 The statistics endpoints allows you to performa multitude of common math statistics on your table such as `'distinct', 'avg', 'count', 'sum', 'max', 'min'`.
 
+### Parameters
+* `coordinates=coords` - a list of coordinates used to filter the response
+* `geometry_type=geom_type` - The type of geometry from the coordinates parameters. Options: `'POINT', 'LINESTRING', 'POLYGON'`
+* `spatial_relationship=relationship` - The type of spatial query to perform with the coordinates parameters. Options: `'ST_Intersects', 'ST_Crosses', 'ST_Within', 'ST_Contains', 'ST_Overlaps', 'ST_Disjoint', 'ST_Touches'`
+* `filter=cql-expr` - filters features via a CQL expression.
+
 Example: In the example below we will be searching for the number of parcels, average deed ac, and distinct first names filtered by last name of `DOOLEY`.
 
 ### Example Input 
@@ -153,6 +159,12 @@ Example: In the example below we will be searching for the number of parcels, av
 
 The bins endpoints allows you to help visualize the spread of a data for a numerical column.
 
+### Parameters
+* `coordinates=coords` - a list of coordinates used to filter the response
+* `geometry_type=geom_type` - The type of geometry from the coordinates parameters. Options: `'POINT', 'LINESTRING', 'POLYGON'`
+* `spatial_relationship=relationship` - The type of spatial query to perform with the coordinates parameters. Options: `'ST_Intersects', 'ST_Crosses', 'ST_Within', 'ST_Contains', 'ST_Overlaps', 'ST_Disjoint', 'ST_Touches'`
+* `filter=cql-expr` - filters features via a CQL expression.
+
 Example: Calculate 10 bins for the `deed_ac` column on the `mclean_county_parcels` table.
 
 ### Example Input
@@ -229,7 +241,13 @@ Example: Calculate 10 bins for the `deed_ac` column on the `mclean_county_parcel
 ### Description
 Create bins of data based off of different mathmatical break types.
 
-Break Types: `equal_interval, head_tail, quantile, jenk`
+Break Types: `equal_interval, head_tail, quantile, jenk`.
+
+### Parameters
+* `coordinates=coords` - a list of coordinates used to filter the response
+* `geometry_type=geom_type` - The type of geometry from the coordinates parameters. Options: `'POINT', 'LINESTRING', 'POLYGON'`
+* `spatial_relationship=relationship` - The type of spatial query to perform with the coordinates parameters. Options: `'ST_Intersects', 'ST_Crosses', 'ST_Within', 'ST_Contains', 'ST_Overlaps', 'ST_Disjoint', 'ST_Touches'`
+* `filter=cql-expr` - filters features via a CQL expression.
 
 Example: Create 3 breaks based off of the column `population` for the table `zip_centroids` using a quantile break type.
 
@@ -272,6 +290,12 @@ Example: Create 3 breaks based off of the column `population` for the table `zip
 
 ### Description
 Create bins based off of your own min and max ranges and provide a count back for each bin.
+
+### Parameters
+* `coordinates=coords` - a list of coordinates used to filter the response
+* `geometry_type=geom_type` - The type of geometry from the coordinates parameters. Options: `'POINT', 'LINESTRING', 'POLYGON'`
+* `spatial_relationship=relationship` - The type of spatial query to perform with the coordinates parameters. Options: `'ST_Intersects', 'ST_Crosses', 'ST_Within', 'ST_Contains', 'ST_Overlaps', 'ST_Disjoint', 'ST_Touches'`
+* `filter=cql-expr` - filters features via a CQL expression.
 
 Example: Create 3 custom bins `0 - 1,000`, `1,000 - 9,000`, and `9,000 - 140,000` based 
 off of the column `population` for the table `zip_centroids` using a quantile break type.
